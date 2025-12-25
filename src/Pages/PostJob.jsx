@@ -21,7 +21,7 @@ const PostJob = () => {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify(PostJob)
+      body: JSON.stringify(formData)
     } )
     .then(res => res.json())
     .then(data => {

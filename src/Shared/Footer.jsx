@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Footer = () => {
   return (
@@ -26,7 +27,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">প্রার্থীদের জন্য</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">চাকরি খুঁজুন</a></li>
+              <li><Link to ="/find-jobs" className="hover:text-white transition">চাকরি খুঁজুন</Link></li>
               <li><a href="#" className="hover:text-white transition">জীবনবৃত্তান্ত তৈরি</a></li>
               <li><a href="#" className="hover:text-white transition">চাকরির এলার্ট</a></li>
               <li><a href="#" className="hover:text-white transition">ক্যারিয়ার টিপস</a></li>
@@ -37,7 +38,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">নিয়োগকারীদের জন্য</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">চাকরি পোস্ট করুন</a></li>
+              <li><Link to="/post-job" className="hover:text-white transition">চাকরি পোস্ট করুন</Link></li>
               <li><a href="#" className="hover:text-white transition">সেরা প্রতিভা খুঁজুন</a></li>
               <li><a href="#" className="hover:text-white transition">বিজ্ঞাপন দিন</a></li>
               <li><a href="#" className="hover:text-white transition">সাহায্য কেন্দ্র</a></li>

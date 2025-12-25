@@ -11,6 +11,9 @@ import Loading from "../Components/Loading";
 import JobDetails from "../Components/JobDetails";
 import JobApply from "../Components/JobApply";
 import PrivateRoute from "../PrivateRoute.jsx/PrivateRoute";
+import SalaryTips from "../Components/SalaryTips";
+import SalaryCalculator from "../Components/SalaryCalculator";
+import SalaryLayout from "../Layout/SalaryLayout";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +23,9 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        errorElement: "Page not found"
       },
       {
         path: "find-jobs",
@@ -51,8 +57,8 @@ export const router = createBrowserRouter([
         Component: Companies,
       },
       {
-        path: "salaries",
-        Component: Salaries,
+        path: "salary-tips",
+        Component: SalaryTips,
       },
       {
         path: "post-job",
@@ -88,6 +94,25 @@ export const router = createBrowserRouter([
           </div>
         ),
         HydrateFallback: Loading,
+      },
+    ],
+  },
+
+  {
+    path: "/salaries",
+    Component: SalaryLayout,
+    children: [
+      {
+        index: true,
+        Component: Salaries
+      },
+      {
+        path: "salary-tips",
+        Component: SalaryTips,
+      },
+      {
+        path: "salary-calculator",
+        Component: SalaryCalculator,
       },
     ],
   },

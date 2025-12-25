@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Home = () => {
   // ডামি ডেটা (Featured Jobs)
+
   const featuredJobs = [
     { id: 1, title: "Frontend Developer", company: "Tech Solutions", location: "Remote", salary: "$50k - $80k", type: "Full-time" },
     { id: 2, title: "UI/UX Designer", company: "Creative Agency", location: "Dhaka, BD", salary: "$30k - $50k", type: "Contract" },
@@ -93,9 +95,9 @@ const Home = () => {
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
             আপনার কোম্পানির জন্য দক্ষ কর্মী খুঁজছেন? আজই আমাদের পোর্টালে চাকরির বিজ্ঞাপন দিন এবং সেরা প্রতিভা খুঁজে নিন।
           </p>
-          <button className="bg-white text-gray-900 px-10 py-4 rounded-full font-bold hover:bg-blue-50 transition">
+          <Link to ="/post-job" className="bg-white text-gray-900 px-10 py-4 rounded-full font-bold hover:bg-blue-50 transition">
             চাকরি পোস্ট করুন
-          </button>
+          </Link>
         </div>
       </section>
 

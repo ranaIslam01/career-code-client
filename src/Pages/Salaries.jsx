@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Salaries = () => {
   // ডামি স্যালারি ডেটা
@@ -79,16 +80,16 @@ const Salaries = () => {
           <div className="bg-blue-600 p-8 rounded-3xl text-white">
             <h3 className="text-2xl font-bold mb-4">বেতন বৃদ্ধির আলোচনা করবেন কীভাবে?</h3>
             <p className="text-blue-100 mb-6">আমাদের গাইডলাইন পড়ে জেনে নিন কীভাবে ইন্টারভিউতে সঠিকভাবে স্যালারি নেগোসিয়েশন করতে হয়।</p>
-            <button className="bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
+            <Link to = "/salary-tips" className="bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition">
               টিপস দেখুন
-            </button>
+            </Link>
           </div>
           <div className="bg-gray-100 p-8 rounded-3xl border border-gray-200">
             <h3 className="text-2xl font-bold mb-4 text-gray-800">আপনার বর্তমান বেতন কত হওয়া উচিত?</h3>
             <p className="text-gray-600 mb-6">আমাদের ক্যালকুলেটর ব্যবহার করে আপনার অভিজ্ঞতা অনুযায়ী সঠিক স্যালারি রেঞ্জ খুঁজে বের করুন।</p>
-            <button className="bg-gray-900 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-800 transition">
+            <Link to = "salary-calculator" className="bg-gray-900 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-800 transition">
               ক্যালকুলেটর ওপেন করুন
-            </button>
+            </Link>
           </div>
         </div>
       </div>
