@@ -1,40 +1,69 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   HiOutlineMail,
   HiOutlineLockClosed,
   HiOutlineUser,
 } from "react-icons/hi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc"; // Google Icon
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const {createUser} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSignUP = (e) => {
+  const { createUser, signInWithGoogle } = useContext(AuthContext);
+
+  const handleSignUP = async (e) => {
     e.preventDefault();
-    console.log("handlesingup click");
+    setLoading(true);
+
     const form = e.target;
-    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name,email,password);
 
-    // create user 
-    createUser(email,password)
-    .then(result => {
-      console.log(result);
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    try {
+      const result = await createUser(email, password);
+      console.log(result.user);
+      
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি করা হয়েছে!");
+      
+      // রেজিস্ট্রেশন সফল হলে ১.৫ সেকেন্ড পর হোমপেজে বা লগইন পেজে নেভিগেট করুন
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error("এই ইমেইলটি ইতিমধ্যে ব্যবহার করা হয়েছে।");
+      } else {
+        toast.error("কিছু একটা ভুল হয়েছে! আবার চেষ্টা করুন।");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      toast.success("গুগল দিয়ে সফলভাবে সাইন আপ করা হয়েছে!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      toast.error("গুগল সাইন ইন ব্যর্থ হয়েছে।");
+    }
   };
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-gray-50 px-4 py-12">
+      <ToastContainer />
       <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100">
         {/* Header */}
         <div className="text-center mb-10">
@@ -44,6 +73,28 @@ const SignUp = () => {
           <p className="text-gray-500 mt-2 font-medium">
             সেরা চাকরির সুযোগ পেতে আজই যোগ দিন
           </p>
+        </div>
+
+        {/* Google Sign-In Button */}
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3.5 rounded-2xl font-bold text-gray-700 hover:bg-gray-50 transition-all duration-300 mb-6 shadow-sm active:scale-[0.98]"
+        >
+          <FcGoogle size={24} />
+          গুগল দিয়ে সাইন আপ করুন
+        </button>
+
+        {/* Divider */}
+        <div className="relative mb-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500 font-medium">
+              অথবা ইমেইল দিয়ে
+            </span>
+          </div>
         </div>
 
         <form onSubmit={handleSignUP} className="space-y-5">
@@ -59,6 +110,7 @@ const SignUp = () => {
               <input
                 name="name"
                 type="text"
+                required
                 placeholder="আপনার নাম"
                 className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all duration-200 text-gray-700"
               />
@@ -77,6 +129,7 @@ const SignUp = () => {
               <input
                 name="email"
                 type="email"
+                required
                 placeholder="example@mail.com"
                 className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all duration-200 text-gray-700"
               />
@@ -95,6 +148,7 @@ const SignUp = () => {
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
+                required
                 placeholder="কমপক্ষে ৮ অক্ষরের"
                 className="w-full pl-11 pr-12 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all duration-200 text-gray-700"
               />
@@ -133,12 +187,17 @@ const SignUp = () => {
             </span>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button with Loader */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-200 transition-all duration-300 transform active:scale-[0.98]"
+            disabled={loading}
+            className={`w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform active:scale-[0.98] flex justify-center items-center ${
+              loading
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-200"
+            }`}
           >
-            সাইন আপ
+            {loading ? <ClipLoader color="#ffffff" size={24} /> : "সাইন আপ"}
           </button>
         </form>
 

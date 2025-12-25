@@ -7,6 +7,10 @@ import Salaries from "../Pages/Salaries";
 import PostJob from "../Pages/PostJob";
 import SignIn from "../Components/SignIn";
 import SignUp from "../Components/SignUp";
+import Loading from "../Components/Loading";
+import JobDetails from "../Components/JobDetails";
+import JobApply from "../Components/JobApply";
+import PrivateRoute from "../PrivateRoute.jsx/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +23,26 @@ export const router = createBrowserRouter([
       },
       {
         path: "find-jobs",
+        loader: () => fetch("http://localhost:3000/jobs"),
         Component: FindJob,
+        HydrateFallback: Loading,
+      },
+      {
+        path: "jobs/:id",
+        Component: JobDetails,
+        loader: async ({ params }) => {
+          const res = await fetch(`http://localhost:3000/jobs/${params.id}`);
+          if (!res.ok) {
+            throw new Response("Not Found", { status: 404 });
+          }
+          return res.json();
+        },
+        errorElement: (
+          <div className="p-10 text-center text-red-500">
+            জবটি খুঁজে পাওয়া যায়নি!
+          </div>
+        ),
+        HydrateFallback: Loading,
       },
       {
         path: "companies",
@@ -30,7 +53,7 @@ export const router = createBrowserRouter([
         Component: Salaries,
       },
       {
-        path: "/post-job",
+        path: "post-job",
         Component: PostJob,
       },
       {
@@ -40,6 +63,25 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         Component: SignUp,
+      },
+      {
+        path: "job-apply/:id", 
+        element: <PrivateRoute>
+          <JobApply></JobApply>
+        </PrivateRoute>,
+        loader: async ({ params }) => {
+          const res = await fetch(`http://localhost:3000/jobs/${params.id}`);
+          if (!res.ok) {
+            throw new Response("Not Found", { status: 404 });
+          }
+          return res.json();
+        },
+        errorElement: (
+          <div className="p-10 text-center text-red-500">
+            জবটি খুঁজে পাওয়া যায়নি!
+          </div>
+        ),
+        HydrateFallback: Loading,
       },
     ],
   },

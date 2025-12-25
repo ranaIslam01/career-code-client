@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router"; // নিশ্চিত হোন আপনি react-router-dom ব্যবহার করছেন কিনা
 import { AuthContext } from "../Contexts/AuthContext/AuthContext";
 import { toast } from "react-toastify";
+import { motion } from "motion/react"
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -15,7 +16,9 @@ const Navbar = () => {
     signOutUser()
       .then((result) => {
         console.log(result);
-        toast.success("Log Out Successfull");
+        setTimeout(() => {
+          toast.success("Log Out Successfull");
+        }, 1000);
       })
       .catch((error) => {
         console.log(error);
@@ -73,7 +76,14 @@ const Navbar = () => {
           {/* ১. লোগো */}
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-              <span className="text-white text-xl font-black italic">J</span>
+              <motion.span
+              animate = {{
+                color : ["#691FE0", "#E01F42" , "#C7DB30"],
+                transition: {duration: 4, repeat: Infinity}
+              }}
+               className="text-white text-xl font-black italic">
+                J
+              </motion.span>
             </div>
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
               Job<span className="text-blue-600">Portal</span>
