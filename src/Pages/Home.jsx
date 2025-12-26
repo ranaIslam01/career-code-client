@@ -1,14 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import FeaturedJobs from '../Components/FeaturedJobs';
 
 const Home = () => {
-  // ডামি ডেটা (Featured Jobs)
-
-  const featuredJobs = [
-    { id: 1, title: "Frontend Developer", company: "Tech Solutions", location: "Remote", salary: "$50k - $80k", type: "Full-time" },
-    { id: 2, title: "UI/UX Designer", company: "Creative Agency", location: "Dhaka, BD", salary: "$30k - $50k", type: "Contract" },
-    { id: 3, title: "Backend Engineer", company: "Data Soft", location: "Hybrid", salary: "$60k - $90k", type: "Full-time" },
-  ];
 
   return (
     <div className="bg-gray-50">
@@ -66,25 +60,10 @@ const Home = () => {
             </div>
             <button className="text-blue-600 font-semibold hover:underline">সবগুলো দেখুন →</button>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredJobs.map((job) => (
-              <div key={job.id} className="border border-gray-200 p-6 rounded-xl hover:border-blue-400 transition-all group">
-                <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded uppercase">
-                  {job.type}
-                </span>
-                <h3 className="text-xl font-bold mt-3 text-gray-800 group-hover:text-blue-600">{job.title}</h3>
-                <p className="text-gray-600 mb-4">{job.company}</p>
-                <div className="flex items-center text-sm text-gray-500 gap-4">
-                  <span>📍 {job.location}</span>
-                  <span>💰 {job.salary}</span>
-                </div>
-                <button className="w-full mt-6 py-2 border border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition">
-                  আবেদন করুন
-                </button>
-              </div>
-            ))}
+          <div>
+            <FeaturedJobs/>
           </div>
+          
         </div>
       </section>
 
