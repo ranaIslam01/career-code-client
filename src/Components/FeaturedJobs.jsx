@@ -6,7 +6,7 @@ const FeaturedJobs = () => {
 
   useEffect(() => {
     // আপনার সার্ভার ইউআরএল অনুযায়ী ফেচ করা হচ্ছে
-    fetch("https://job-portal-server-y6ck.onrender.com//job-post")
+    fetch("https://job-portal-server-y6ck.onrender.com/job-post")
       .then((res) => res.json())
       .then((data) => {
         setFeaturedJobs(data);

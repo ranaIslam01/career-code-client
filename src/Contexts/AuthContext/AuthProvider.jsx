@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
       if (currentUser?.email) {
         const userData = { email: currentUser.email };
         axios
-          .post("https://job-portal-server-y6ck.onrender.com//jwt", {
+          .post("https://job-portal-server-y6ck.onrender.com/jwt", {
             userData,
           })
           .then((res) => {

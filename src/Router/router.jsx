@@ -73,11 +73,11 @@ export const router = createBrowserRouter([
         Component: PostJob,
       },
       {
-        path: "/edit-job/:id",
+        path: "/update-job/:id",
         element: <UpdatePostJob />,
         loader: ({ params }) =>
           fetch(
-            `https://job-portal-server-y6ck.onrender.com/jobs/${params.id}`
+            `https://job-portal-server-y6ck.onrender.com/job-post/${params.id}`
           ),
       },
       {

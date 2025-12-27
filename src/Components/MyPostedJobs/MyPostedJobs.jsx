@@ -40,6 +40,8 @@ const MyPostedJobs = () => {
               setJobs(jobs.filter((job) => job._id !== id));
             }
           });
+      }else{
+        Swal.fire("বাতিল করা হয়েছে", "আপনার ডাটা নিরাপদ আছে।", "info");
       }
     });
   };
@@ -61,7 +63,7 @@ const MyPostedJobs = () => {
           
           {/* Horizontal scroll for small devices */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[600px] md:min-w-full">
+            <table className="w-full text-left border-collapse min-w-150 md:min-w-full">
               <thead className="bg-gray-100 text-gray-700 uppercase text-xs md:text-sm">
                 <tr>
                   <th className="px-4 md:px-6 py-4 font-semibold">চাকরির পদবী</th>
@@ -116,7 +118,7 @@ const MyPostedJobs = () => {
                       <td className="px-4 md:px-6 py-4">
                         <div className="flex justify-center items-center gap-2 md:gap-4">
                           <Link
-                            to={`/updateJob/${job._id}`}
+                            to={`/update-job/${job._id}`}
                             className="p-2 md:px-4 md:py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all text-xs md:text-sm font-semibold"
                           >
                             এডিট
