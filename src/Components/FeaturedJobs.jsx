@@ -52,9 +52,9 @@ const FeaturedJobs = () => {
                 </div>
               </div>
 
-              <Link to={`/job-apply/${_id}`} className="w-full mt-6 py-2.5 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300">
+              <button className="w-full mt-6 py-2.5 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300">
                 আবেদন করুন
-              </Link>
+              </button>
             </div>
           );
         })}
