@@ -15,12 +15,15 @@ import SalaryTips from "../Components/SalaryTips";
 import SalaryCalculator from "../Components/SalaryCalculator";
 import SalaryLayout from "../Layout/SalaryLayout";
 import Errorpage from "../Pages/Errorpage";
+import MyPostedJobs from "../Components/MyPostedJobs/MyPostedJobs";
+import MyApplications from "../Components/MyApplication";
+import UpdatePostJob from "../Components/UpdatePostJob";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
-    errorElement: <Errorpage/>,
+    errorElement: <Errorpage />,
     children: [
       {
         index: true,
@@ -60,8 +63,24 @@ export const router = createBrowserRouter([
         Component: SalaryTips,
       },
       {
+        path: "my-jobs",
+        Component: MyPostedJobs,
+      },
+      {
+        path: "my-applications",
+        Component: MyApplications,
+      },
+      {
         path: "post-job",
         Component: PostJob,
+      },
+      {
+        path: "/edit-job/:id",
+        element: <UpdatePostJob />,
+        loader: ({ params }) =>
+          fetch(
+            `https://job-portal-server-y6ck.onrender.com/jobs/${params.id}`
+          ),
       },
       {
         path: "signin",
@@ -103,7 +122,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Salaries
+        Component: Salaries,
       },
       {
         path: "salary-tips",
