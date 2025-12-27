@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const PostJob = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    company: '',
-    category: '',
-    jobType: 'Full-time',
-    salary: '',
-    location: '',
-    description: ''
+    title: "",
+    company: "",
+    category: "",
+    jobType: "Full-time",
+    salary: "",
+    location: "",
+    description: "",
   });
 
   const handleSubmit = (e) => {
@@ -16,18 +16,17 @@ const PostJob = () => {
     console.log("Job Data Submitted:", formData);
     alert("চাকরি সফলভাবে পোস্ট করা হয়েছে!");
 
-    fetch("http://localhost:3000/job-post",{
+    fetch("https://job-portal-server-y6ck.onrender.com//job-post", {
       method: "POST",
       headers: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
       },
-      body: JSON.stringify(formData)
-    } )
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
+      body: JSON.stringify(formData),
     })
-
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   const handleChange = (e) => {
@@ -37,22 +36,26 @@ const PostJob = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 text-gray-700">
       <div className="max-w-3xl mx-auto">
-        
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-gray-900">নতুন চাকরি পোস্ট করুন</h1>
-          <p className="text-gray-600 mt-2">আপনার কোম্পানির জন্য সেরা দক্ষ কর্মী খুঁজে নিন</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            নতুন চাকরি পোস্ট করুন
+          </h1>
+          <p className="text-gray-600 mt-2">
+            আপনার কোম্পানির জন্য সেরা দক্ষ কর্মী খুঁজে নিন
+          </p>
         </div>
 
         {/* Form Card */}
         <div className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
-            
             {/* Job Title */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">চাকরির পদবী (Job Title) *</label>
-              <input 
-                type="text" 
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                চাকরির পদবী (Job Title) *
+              </label>
+              <input
+                type="text"
                 name="title"
                 required
                 placeholder="যেমন: Senior React Developer"
@@ -64,9 +67,11 @@ const PostJob = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Company Name */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">কোম্পানির নাম *</label>
-                <input 
-                  type="text" 
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  কোম্পানির নাম *
+                </label>
+                <input
+                  type="text"
                   name="company"
                   required
                   placeholder="আপনার কোম্পানির নাম"
@@ -77,8 +82,10 @@ const PostJob = () => {
 
               {/* Job Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">ক্যাটাগরি</label>
-                <select 
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  ক্যাটাগরি
+                </label>
+                <select
                   name="category"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition bg-white"
                   onChange={handleChange}
@@ -95,13 +102,18 @@ const PostJob = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Job Type */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">চাকরির ধরন</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  চাকরির ধরন
+                </label>
                 <div className="flex gap-4 mt-2">
-                  {['Full-time', 'Remote', 'Contract'].map((type) => (
-                    <label key={type} className="flex items-center space-x-2 cursor-pointer">
-                      <input 
-                        type="radio" 
-                        name="jobType" 
+                  {["Full-time", "Remote", "Contract"].map((type) => (
+                    <label
+                      key={type}
+                      className="flex items-center space-x-2 cursor-pointer"
+                    >
+                      <input
+                        type="radio"
+                        name="jobType"
                         value={type}
                         checked={formData.jobType === type}
                         onChange={handleChange}
@@ -115,9 +127,11 @@ const PostJob = () => {
 
               {/* Salary Range */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">বেতন সীমা (Salary)</label>
-                <input 
-                  type="text" 
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  বেতন সীমা (Salary)
+                </label>
+                <input
+                  type="text"
                   name="salary"
                   placeholder="যেমন: $50k - $80k"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -128,9 +142,11 @@ const PostJob = () => {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">লোকেশন (Location)</label>
-              <input 
-                type="text" 
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                লোকেশন (Location)
+              </label>
+              <input
+                type="text"
                 name="location"
                 placeholder="যেমন: ঢাকা, বাংলাদেশ"
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -140,8 +156,10 @@ const PostJob = () => {
 
             {/* Job Description */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">জব ডেসক্রিপশন (Description) *</label>
-              <textarea 
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                জব ডেসক্রিপশন (Description) *
+              </label>
+              <textarea
                 name="description"
                 rows="5"
                 required
@@ -153,7 +171,7 @@ const PostJob = () => {
 
             {/* Submit Button */}
             <div className="pt-4">
-              <button 
+              <button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-200"
               >

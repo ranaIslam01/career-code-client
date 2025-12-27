@@ -31,9 +31,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "find-jobs",
-        loader: () => fetch("https://job-portal-server-y6ck.onrender.com/jobs"),
         Component: FindJob,
-        HydrateFallback: Loading,
       },
       {
         path: "jobs/:id",

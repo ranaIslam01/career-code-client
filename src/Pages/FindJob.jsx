@@ -1,9 +1,47 @@
-import { Link, useLoaderData } from "react-router";
+import { Link } from "react-router";
 import JobCard from "../Components/JobCard";
+import { useEffect, useState } from "react";
 
 const FindJob = () => {
-  const initialJobs = useLoaderData();
-  
+  const [initialJobs, setInitialJobs] = useState([]); // মূল ডাটা স্টোর করার জন্য
+  const [jobs, setJobs] = useState([]); // ফিল্টার করা ডাটা দেখানোর জন্য
+  const [searchTerm, setSearchTerm] = useState("");
+  const [locationTerm, setLocationTerm] = useState("");
+  const [loading, setLoading] = useState(true); // লোডিং স্টেট
+
+  // ডাটা ফেচ করা
+  useEffect(() => {
+    setLoading(true);
+    fetch("https://job-portal-server-y6ck.onrender.com/jobs")
+      .then((res) => res.json())
+      .then((data) => {
+        setInitialJobs(data);
+        setJobs(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching jobs:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  // সার্চ লজিক (বাটনে ক্লিক করলে কাজ করবে)
+  const handleSearch = () => {
+    const filtered = initialJobs.filter((job) => {
+      const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const locationMatch = job.location.toLowerCase().includes(locationTerm.toLowerCase());
+      return titleMatch && locationMatch;
+    });
+    setJobs(filtered);
+  };
+
+  // ফিল্টার রিসেট করার ফাংশন
+  const clearFilter = () => {
+    setSearchTerm("");
+    setLocationTerm("");
+    setJobs(initialJobs);
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen py-10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,7 +49,7 @@ const FindJob = () => {
         {/* হেডার সেকশন */}
         <div className="mb-10 text-center md:text-left">
           <h1 className="text-3xl font-extrabold text-gray-900">আপনার স্বপ্নের চাকরি খুঁজুন</h1>
-          <p className="text-gray-600 mt-2">সেরা কোম্পানিগুলোতে হাজারো চাকরির সুযোগ রয়েছে</p>
+          <p className="text-gray-600 mt-2">সেরা কোম্পানিগুলোতে হাজারো চাকরির সুযোগ রয়েছে</p>
         </div>
 
         {/* সার্চ বার */}
@@ -20,6 +58,8 @@ const FindJob = () => {
             <div className="relative">
               <input
                 type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="জব টাইটেল বা কীওয়ার্ড"
                 className="w-full pl-4 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
               />
@@ -27,11 +67,16 @@ const FindJob = () => {
             <div className="relative">
               <input
                 type="text"
+                value={locationTerm}
+                onChange={(e) => setLocationTerm(e.target.value)}
                 placeholder="লোকেশন (ঢাকা, চট্টগ্রাম...)"
                 className="w-full pl-4 pr-3 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
               />
             </div>
-            <button className="bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+            <button 
+              onClick={handleSearch}
+              className="bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+            >
               সার্চ করুন
             </button>
           </div>
@@ -58,39 +103,44 @@ const FindJob = () => {
                 </div>
               </div>
 
-              <div className="mb-8">
-                <h4 className="font-semibold mb-4 text-gray-800">বেতন সীমা</h4>
-                <select className="w-full border border-gray-200 p-3 rounded-xl text-gray-600 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>সব সীমা</option>
-                  <option>২০k - ৪০k BDT</option>
-                  <option>৪০k - ৮০k BDT</option>
-                  <option>৮০k+ BDT</option>
-                </select>
-              </div>
-
-              <button className="w-full py-3 text-red-500 font-medium hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100">
+              <button 
+                onClick={clearFilter}
+                className="w-full py-3 text-red-500 font-medium hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100"
+              >
                 ফিল্টার মুছুন
               </button>
             </div>
           </aside>
 
-          {/* জব লিস্টিং */}
+          {/* জব লিস্টিং এরিয়া */}
           <main className="w-full lg:w-3/4">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">
-                মোট <span className="text-blue-600">{initialJobs.length}টি</span> চাকরি পাওয়া গেছে
-              </h2>
-              <select className="bg-white border border-gray-200 text-gray-600 py-2 px-4 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
-                <option>নতুনগুলো আগে</option>
-                <option>পুরানোগুলো আগে</option>
-              </select>
-            </div>
+            {loading ? (
+              // লোডিং স্পিনার
+              <div className="flex flex-col items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
+                <p className="mt-4 text-gray-500 italic">চাকরি খোঁজা হচ্ছে...</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold text-gray-800">
+                    মোট <span className="text-blue-600">{jobs.length}টি</span> চাকরি পাওয়া গেছে
+                  </h2>
+                </div>
 
-            <div className="grid grid-cols-1 gap-5">
-              {initialJobs.map((job) => (
-                <JobCard job = {job} key={job._id}></JobCard>
-              ))}
-            </div>
+                <div className="grid grid-cols-1 gap-5">
+                  {jobs.length > 0 ? (
+                    jobs.map((job) => (
+                      <JobCard job={job} key={job._id}></JobCard>
+                    ))
+                  ) : (
+                    <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
+                      <p className="text-gray-500">দুঃখিত, আপনার সার্চের সাথে কোনো চাকরি মেলেনি।</p>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </main>
         </div>
       </div>

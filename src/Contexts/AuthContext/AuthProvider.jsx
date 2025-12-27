@@ -43,11 +43,13 @@ const AuthProvider = ({ children }) => {
       if (currentUser?.email) {
         const userData = { email: currentUser.email };
         axios
-          .post("http://localhost:3000/jwt", { userData })
+          .post("https://job-portal-server-y6ck.onrender.com//jwt", {
+            userData,
+          })
           .then((res) => {
-            console.log("token after jwt",res.data);
+            console.log("token after jwt", res.data);
             const token = res.data.token;
-            localStorage.setItem("token", token)
+            localStorage.setItem("token", token);
           })
           .catch((error) => {
             console.log(error);
