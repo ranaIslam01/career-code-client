@@ -13,7 +13,6 @@ const SignIn = () => {
   const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("sing in", location);
   const form2 = location.state || "/";
 
 

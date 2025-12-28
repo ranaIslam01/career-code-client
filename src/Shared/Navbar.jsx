@@ -15,9 +15,21 @@ const Navbar = () => {
   const handleSignOut = () => {
     signOutUser()
       .then(() => {
-        setTimeout(() => {
-          toast.success("Log Out Successful");
-        }, 1000);
+        // Firebase থেকে সাইন আউট হওয়ার পর আপনার সার্ভারের কুকি রিমুভ করার জন্য কল
+        fetch('https://job-portal-server-y6ck.onrender.com/logout', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          // credentials: 'include' অবশ্যই দিতে হবে যাতে কুকি এক্সেস করতে পারে
+          credentials: 'include' 
+        })
+        .then(res => res.json())
+        .then(data => {
+          if(data.success){
+            toast.success("Log Out Successful");
+          }
+        })
       })
       .catch((error) => {
         console.log(error);
