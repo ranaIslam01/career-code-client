@@ -4,15 +4,15 @@ import { Link } from "react-router";
 
 const MyApplications = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user?.email) {
       fetch(
-        `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`,
-        { credentials: "include" }
+        `https://job-portal-server-y6ck.onrender.com/job-applications?email=${user.email}`
+        
       )
         .then((res) => res.json())
         .then((data) => {
