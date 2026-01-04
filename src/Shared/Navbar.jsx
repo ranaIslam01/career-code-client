@@ -49,11 +49,11 @@ const handleSignOut = () => {
 
   // ১. আপনার নতুন পেজ "My Jobs" এখানে অ্যাড করা হয়েছে
   const navLinks = [
-    { name: "Home", path: "/" },
+    // { name: "Home", path: "/" },
     { name: "Find Jobs", path: "/find-jobs" },
     { name: "My Posted Jobs", path: "/my-jobs" },
     { name: "My Applications", path: "/my-applications" },
-    { name: "Companies", path: "/companies" },
+    // { name: "Companies", path: "/companies" },
   ];
 
   useEffect(() => {

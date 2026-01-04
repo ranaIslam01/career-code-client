@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home,
+        Component: FindJob,
       },
       {
         path: "find-jobs",
