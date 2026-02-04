@@ -116,7 +116,6 @@ const handleSignOut = () => {
             ))}
           </div>
 
-          {/* অ্যাকশন বাটন (ডেস্কটপ ও ট্যাবলেট) */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
             {user ? (
               <button
@@ -143,7 +142,7 @@ const handleSignOut = () => {
             </Link>
           </div>
 
-          {/* মোবাইল ও ছোট ট্যাবলেট মেনু বাটন */}
+          {/* Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
