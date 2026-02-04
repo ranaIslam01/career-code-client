@@ -7,24 +7,25 @@ import { AuthContext } from "../../Contexts/AuthContext/AuthContext";
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     if (user?.email) {
-      fetch(
-        `https://job-portal-server-y6ck.onrender.com/job-post?email=${user.email}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setJobs(data);
+      axios
+        .get(
+          `https://job-portal-server-y6ck.onrender.com/job-post?email=${user.email}`,
+        )
+        .then((res) => {
+          setJobs(res.data);
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching jobs:", error);
+          console.error("Error:", error);
           setLoading(false);
         });
     }
   }, [user?.email]);
-
+  
   const handleDelete = (id) => {
     Swal.fire({
       title: "আপনি কি নিশ্চিত?",
@@ -42,7 +43,7 @@ const MyPostedJobs = () => {
           .then((res) => {
             if (res.data.deletedCount > 0) {
               Swal.fire("ডিলিট হয়েছে!", "সফলভাবে মুছে ফেলা হয়েছে।", "success");
-              setJobs(jobs.filter((job) => job._id !== id));
+              setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
             }
           });
       } else {
@@ -131,8 +132,8 @@ const MyPostedJobs = () => {
                             job.jobType === "Full-time"
                               ? "bg-green-100 text-green-700"
                               : job.jobType === "Remote"
-                              ? "bg-purple-100 text-purple-700"
-                              : "bg-orange-100 text-orange-700"
+                                ? "bg-purple-100 text-purple-700"
+                                : "bg-orange-100 text-orange-700"
                           }`}
                         >
                           {job.jobType}
